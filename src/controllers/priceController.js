@@ -18,7 +18,9 @@ export const storePurchasePrices = async (req, res) => {
     const data = response.data?.data || [];
     console.log('Fetching purchase prices from api:', response.data);
 
-    const formatted = data.map(item => ({
+for (const item of data) {
+    const entry = {
+      commodityNameId: item.Commodity_Name?.ID,
       dateOfPrice: new Date(item.Date_of_Price),
       commodityCode: item.Commodity_Code,
       commodityName: item.Commodity_Name?.Commodity_Name || 'Unknown',
@@ -29,13 +31,13 @@ export const storePurchasePrices = async (req, res) => {
       dailyPriceId: item.Daily_Purchase_Price_ID || {}, // storing full object
       dateField:item.Daily_Purchase_Price_ID.Date_field
 
-    }));
-
-    await prisma.purchasePrice.createMany({
-      data: formatted,
-      skipDuplicates: true
-    });
-
+    };
+    await prisma.purchasePrice.upsert({
+    where: { commodityNameId: entry.commodityNameId },
+    update: entry,
+    create: entry,
+});
+}
     res.status(201).json({ message: 'Purchase prices fetched and saved successfully' });
   } catch (err) {
     console.error('Error storing purchase prices:', err);
@@ -51,7 +53,9 @@ export const storeSalesPrices = async (req, res) => {
   }
 });
     const data = response.data?.data || [];
-    const formatted = data.map(item => ({
+for (const item of data) {
+  const entry = {
+      commodityNameId: item.Commodity_Name1?.ID,
       dateOfPrice: item.Date_of_Price,
       commodityCode: item.Commodity_Code1,
       commodityName: item.Commodity_Name1?.Name_To_Be_Printed || 'Unknown',
@@ -59,13 +63,13 @@ export const storeSalesPrices = async (req, res) => {
       siNo: item.SI_No,
       dailySalesPriceId: item.Daily_Sales_Price_ID || {}, // storing full object
       commodityNameId: item.Commodity_Name1?.ID || 'Unknown',
-    }));
-
-    await prisma.salesPrice.createMany({
-      data: formatted,
-      skipDuplicates: true
-    });
-
+    };
+    await prisma.salesPrice.upsert({
+    where: { commodityNameId: entry.commodityNameId },
+    update: entry,
+    create: entry,
+  });
+}
     res.status(201).json({ message: 'Sales prices fetched and saved successfully' });
   } catch (err) {
     console.error('Error storing sales prices:', err);

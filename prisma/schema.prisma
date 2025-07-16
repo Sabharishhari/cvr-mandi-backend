@@ -11,6 +11,7 @@ model PurchasePrice {
   id                    String   @id @default(uuid())
   dailyPriceId          Json
   dateField             String
+  commodityNameId    String   @unique
   minPurchasePriceKg    Float
   maxPurchasePriceKg    Float
   dateOfPrice           DateTime
@@ -29,6 +30,7 @@ model SalesPrice {
   pricePerKg          Float
   dateOfPrice         String
   commodityCode       String
+  commodityNameId    String   @unique
   siNo                String
   commodityName       String
   commodityNameId     String
