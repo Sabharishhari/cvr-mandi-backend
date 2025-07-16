@@ -51,8 +51,6 @@ export const storeSalesPrices = async (req, res) => {
   }
 });
     const data = response.data?.data || [];
-
-    
     const formatted = data.map(item => ({
       dateOfPrice: item.Date_of_Price,
       commodityCode: item.Commodity_Code1,

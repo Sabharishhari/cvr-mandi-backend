@@ -4,8 +4,9 @@
   "main": "api/index.js",               
   "type": "module",
   "scripts": {
-    "build": "prisma generate",        
-    "dev": "node api/index.js"
+  "build": "npx prisma generate",
+  "postinstall": "prisma generate",
+  "dev": "node api/index.js"
   },
   "keywords": [],
   "author": "",
