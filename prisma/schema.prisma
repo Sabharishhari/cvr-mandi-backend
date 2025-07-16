@@ -33,7 +33,6 @@ model SalesPrice {
   commodityNameId    String   @unique
   siNo                String
   commodityName       String
-  commodityNameId     String
 
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt

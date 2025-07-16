@@ -55,14 +55,13 @@ export const storeSalesPrices = async (req, res) => {
     const data = response.data?.data || [];
 for (const item of data) {
   const entry = {
-      commodityNameId: item.Commodity_Name1?.ID,
       dateOfPrice: item.Date_of_Price,
       commodityCode: item.Commodity_Code1,
       commodityName: item.Commodity_Name1?.Name_To_Be_Printed || 'Unknown',
       pricePerKg: parseFloat(item.Price_Per_KG),
       siNo: item.SI_No,
       dailySalesPriceId: item.Daily_Sales_Price_ID || {}, // storing full object
-      commodityNameId: item.Commodity_Name1?.ID || 'Unknown',
+      commodityNameId: item.Commodity_Name1?.ID ,
     };
     await prisma.salesPrice.upsert({
     where: { commodityNameId: entry.commodityNameId },
