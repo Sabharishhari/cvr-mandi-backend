@@ -13,8 +13,11 @@ const PORT = process.env.PORT || 5001;
 // Middleware
 app.use(express.json());
 app.use('/api', priceRoutes);
-app.use(cors());
-
+app.use(cors({
+  origin: 'https://www.cvrmandi.in', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 // Routes
 app.get('/', (req, res) => {
   res.send('Backend is running with ES Modules!');
